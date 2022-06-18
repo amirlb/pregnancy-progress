@@ -48,7 +48,7 @@ function pregnency_progress {
     local estimatedDueDate
     if (( $isGnuDate ))
         then estimatedDueDate=$(date --date "$lastPeriod +40 weeks" $dateFormat)
-        else estimatedDueDate=$(date -j -f %s $lastPeriodSec $dateFormat)
+        else estimatedDueDate=$(date -j -f %s $estimatedDueSec $dateFormat)
     fi
     echo "Estimated due date: $estimatedDueDate"
 }
