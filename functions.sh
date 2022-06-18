@@ -17,9 +17,14 @@ function progress_bar {
 function pregnency_progress {
     local americanDateFormat=0  # set to 1 for day/month/year output
 
+    local dateCmd=date
+    if ! ( $dateCmd --date 2022-01-01 > /dev/null 2> /dev/null )
+        then dateCmd=gdate
+    fi
+
     local lastPeriod=$1
-    local lastPeriodSec=$(date --date $lastPeriod +%s)
-    local nowSec=$(date +%s)
+    local lastPeriodSec=$($dateCmd --date $lastPeriod +%s)
+    local nowSec=$($dateCmd +%s)
 
     local pregnancyDays=$(( ($nowSec - $lastPeriodSec ) / 86400 ))
     local pregnancyWeeks=$(( $pregnancyDays / 7 ))
@@ -32,14 +37,14 @@ function pregnency_progress {
     echo "along"
     echo
 
-    local estimatedConceptionSec=$(date --date "$lastPeriod +14 days" +%s)
-    local estimatedDueSec=$(date --date "$lastPeriod +40 weeks" +%s)
+    local estimatedConceptionSec=$($dateCmd --date "$lastPeriod +14 days" +%s)
+    local estimatedDueSec=$($dateCmd --date "$lastPeriod +40 weeks" +%s)
     echo "💦   $(progress_bar $(( $nowSec - $estimatedConceptionSec )) $(( $estimatedDueSec - $estimatedConceptionSec )) 20 )  👶"
 
     local dateFormat="+%-d/%-m/%Y"
     if (( $americanDateFormat ))
         then dateFormat="+%-m/%-d/%Y"
     fi
-    local estimatedDueDate=$(date --date "$lastPeriod +40 weeks" $dateFormat)
+    local estimatedDueDate=$($dateCmd --date "$lastPeriod +40 weeks" $dateFormat)
     echo "Estimated due date: $estimatedDueDate"
 }
