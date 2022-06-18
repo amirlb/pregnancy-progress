@@ -4,7 +4,7 @@ Shows how far along you are, in the terminal!
 
 ## Installation
 
-Copy the functions from the file `functions.sh` to the end of your `.bashrc` file.
+Copy the [functions](functions.sh) to the end of your `.bashrc` file.
 
 Then run the program as
 ```
